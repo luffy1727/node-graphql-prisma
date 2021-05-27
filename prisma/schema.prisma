@@ -1,0 +1,25 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+model room {
+  id      Int      @default(autoincrement()) @id
+  users   user[]
+  uuid    String   @unique
+}
+
+model user {
+  id      Int      @default(autoincrement()) @id
+  email   String   @unique
+  firstName    String @map("first_name")
+  lastName    String @map("last_name")
+  rooms   room[]  // Super fucking weird ManyToMany relation
+  // creates some somethingTosomething table. weird..
+}
